@@ -1,132 +1,80 @@
 
-package OOP2;
+package OOP3;
 
-import java.util.Date;
 import java.util.Scanner;
 
 public class Processor {
-
-    private ProductArrayList productList;
-
-    
-    public Processor() {
-        productList = new ProductArrayList();
-    }
-
-    
-    public void addLaptop() {
-
+    public static void main(String[] args) {
+        CloudServiceArrayList list = new CloudServiceArrayList();
         Scanner sc = new Scanner(System.in);
+        int choice;
 
-        System.out.print("Nhap ID: ");
-        String id = sc.nextLine();
+        do {
+            System.out.println("\n========== CLOUD SERVICE MANAGEMENT ==========");
+            System.out.println("1. Them Storage Service");
+            System.out.println("2. Them Compute Service");
+            System.out.println("3. Hien thi tat ca dich vu");
+            System.out.println("4. Hien thi cac dich vu dang hoat dong (Active)");
+            System.out.println("5. Cap nhat dich vu theo ID");
+            System.out.println("6. Xoa dich vu theo ID");
+            System.out.println("7. Tim chi phi hang thang cao nhat (Highest Monthly Cost)");
+            System.out.println("0. Thoat");
+            System.out.print("Chon chuc nang (0-7): ");
+            
+            choice = sc.nextInt();
+            sc.nextLine(); // Doc bo dong trong
 
-        System.out.print("Nhap basic price: ");
-        double basicPrice = sc.nextDouble();
+            switch (choice) {
+                case 1:
+                    System.out.println("\n--- THEM STORAGE SERVICE ---");
+                    StorageService ss = new StorageService();
+                    ss.addService();
+                    list.addServiceToArrayList(ss);
+                    break;
 
-        System.out.print("Nhap quantity: ");
-        int quantity = sc.nextInt();
+                case 2:
+                    System.out.println("\n--- THEM COMPUTE SERVICE ---");
+                    ComputeService cs = new ComputeService();
+                    cs.addService();
+                    list.addServiceToArrayList(cs);
+                    break;
 
-        System.out.print("Nhap warranty years: ");
-        int warrantyYears = sc.nextInt();
+                case 3:
+                    System.out.println("\n--- DANH SACH TAT CA DICH VU ---");
+                    list.displayAllServices();
+                    break;
 
-        System.out.print("Nhap discount percent: ");
-        double discountPercent = sc.nextDouble();
+                case 4:
+                    System.out.println("\n--- DANH SACH DICH VU DANG HOAT DONG ---");
+                    list.displayActiveServices();
+                    break;
 
-        Laptop laptop = new Laptop(
-                id,
-                basicPrice,
-                new Date(),
-                true,
-                quantity,
-                warrantyYears,
-                discountPercent
-        ) {
-            @Override
-            public void displaydetails() {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                case 5:
+                    System.out.print("Nhap ID dich vu can cap nhat: ");
+                    String updateId = sc.nextLine();
+                    list.updateServiceById(updateId);
+                    break;
+
+                case 6:
+                    System.out.print("Nhap ID dich vu can xoa: ");
+                    String deleteId = sc.nextLine();
+                    list.deleteServiceById(deleteId);
+                    break;
+
+                case 7:
+                    double maxCost = list.findHighestMonthlyCost();
+                    System.out.printf("Chi phi hang thang cao nhat la: $%.2f\n", maxCost);
+                    break;
+
+                case 0:
+                    System.out.println("Da thoát chuong trinh!");
+                    break;
+
+                default:
+                    System.out.println("Lua chon khong hop le. Vui long chon lai!");
             }
-        };
+        } while (choice != 0);
 
-        productList.addProduct(laptop);
-
-        System.out.println("Them Laptop thanh cong!");
-    }
-
-   
-    public void addSmartphone() {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Nhap ID: ");
-        String id = sc.nextLine();
-
-        System.out.print("Nhap basic price: ");
-        double basicPrice = sc.nextDouble();
-
-        System.out.print("Nhap quantity: ");
-        int quantity = sc.nextInt();
-
-        System.out.print("Nhap storage GB: ");
-        int storageGB = sc.nextInt();
-
-        System.out.print("Nhap tax percent: ");
-        double taxPercent = sc.nextDouble();
-
-        Smartphone smartphone = new Smartphone(
-                id,
-                basicPrice,
-                new Date(),
-                true,
-                quantity,
-                storageGB,
-                taxPercent
-        ) {
-            @Override
-            public void displaydetails() {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-        };
-
-        smartphone.addProduct();
-
-        System.out.println("Them Smartphone thanh cong!");
-    }
-
-    
-    public void updateProduct() {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Nhap ID can cap nhat: ");
-        String id = sc.nextLine();
-
-        productList.updateProductById(id);
-    }
-
-    
-    public void deleteProduct() {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Nhap ID can xoa: ");
-        String id = sc.nextLine();
-
-        productList.deleteProductById(id);
-    }
-
-    
-    public void displayAllProducts() {
-        productList.displayAllProducts();
-    }
-
-    
-    public void displayAvailableProducts() {
-        productList.findAvailableProducts();
-    }
-
-    
-    public void findHighestPrice() {
-        productList.findHighestPrice();
+        sc.close();
     }
 }
